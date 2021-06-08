@@ -10,55 +10,57 @@ function Products(){
     const [url,setUrl]=useState('http://127.0.0.1:8000/products')
 
     const fetchData = (urlpara)=>{
-        fetch(urlpara)
-        .then(response => response.json())
-        .then((data) => {
-            console.log(urlpara);
-            setProds(()=>{
-                console.log(data.results);
-                return [...data.results];
-            });
-            setcurrObj(data); 
-        }
-        )};
+        console.log("fetch  data called",urlpara)
+        console.log(currObj)
+        if(urlpara){
+            console.log("in the if")
+            fetch(urlpara)
+            .then(response => response.json())
+            .then((data) => {
+                console.log("data",data);
+                setProds(()=>{
+                    return [...data.results];
+                });
+                setcurrObj(data); 
+
+            }
+
+        )
+    }};
     
     useEffect(() => {
         fetchData(url);
-        console.log("prods"+prod);
-        
     }, [])
-    
-    console.log(currObj.next);
+
     
     return (
     <>
         <div className="container-fluid">
             <div className="row" >
             {
-                prod.map((cval,prod)=>{
+                prod.map((cval)=>{
                     return (
-                        <div className="col p-1">
-                        <Product key={cval.id} name={cval.prod_name} price={cval.original_price} imgUrl={cval.images[0].image}/>
+                        <div className="col p-1" key={cval.id}>
+                        <Product name={cval.prod_name} price={cval.original_price}  imgUrl={cval.images[0].image}/>
                         </div>
                     );
                 })
             }
-            {/* <button onClick={fetchprod} >Product</button> */}
             </div>
         </div>
-
-        <div style={{paddingLeft:"40%"}}>
-            <ul class="pagination">
-                <li class="page-item disabled">
-                <span class="page-link">Previous</span>
+                
+        <div style={{display:"flex" , justifyContent:"center" }}>
+            <ul className="pagination text-center">
+                <li className="page-item ">
+                <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.previous)}>◀️</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                <span class="page-link">2</span>
+                {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                <li className="page-item active" aria-current="page">
+                <span className="page-link">2</span>
                 </li>
-                <li class="page-item"><a class="page-link" >3</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <li className="page-item"><a className="page-link" >3</a></li> */}
+                <li className="page-item">
+                <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.next)}>	 ▶️</a>
                 </li>
             </ul>
         </div>
