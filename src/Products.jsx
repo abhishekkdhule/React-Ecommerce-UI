@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import ReactDOM from 'react-dom'
 import Product from './Product'
-import {Container,Row,Col} from 'react-bootstrap'
+import axios from 'axios'
 
 function Products(){
     const [prod, setProds] = useState([]);
@@ -10,23 +10,20 @@ function Products(){
     const [url,setUrl]=useState('http://127.0.0.1:8000/products')
 
     const fetchData = (urlpara)=>{
+        setLoading(true)
         console.log("fetch  data called",urlpara)
         console.log(currObj)
         if(urlpara){
             console.log("in the if")
-            fetch(urlpara)
-            .then(response => response.json())
-            .then((data) => {
-                console.log("data",data);
-                setProds(()=>{
-                    return [...data.results];
-                });
-                setcurrObj(data); 
-
+            axios.get(urlpara)
+            .then(response =>{
+                setLoading(false)
+                console.log(response.data)
+                setProds([...response.data.results])
+                setcurrObj(response.data)
+            }) 
             }
-
-        )
-    }};
+        };
     
     useEffect(() => {
         fetchData(url);
@@ -34,13 +31,20 @@ function Products(){
 
     
     return (
-    <>
-        <div className="container-fluid">
+    <>  {   loading ? (
+            <div className="text-center " style={{marginTop:'250px'}}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div> 
+    ) : 
+        (   <>
+            <div className="container-fluid mt-4 mb-4">
             <div className="row" >
             {
                 prod.map((cval)=>{
                     return (
-                        <div className="col p-1" key={cval.id}>
+                        <div className="col-md-3 " key={cval.id}>
                         <Product name={cval.prod_name} price={cval.original_price}  imgUrl={cval.images[0].image}/>
                         </div>
                     );
@@ -48,22 +52,20 @@ function Products(){
             }
             </div>
         </div>
-                
+
         <div style={{display:"flex" , justifyContent:"center" }}>
             <ul className="pagination text-center">
                 <li className="page-item ">
                 <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.previous)}>◀️</a>
                 </li>
-                {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item active" aria-current="page">
-                <span className="page-link">2</span>
-                </li>
-                <li className="page-item"><a className="page-link" >3</a></li> */}
                 <li className="page-item">
                 <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.next)}>	 ▶️</a>
                 </li>
             </ul>
-        </div>
+        </div>        
+        </>        
+        )
+        }
     </>
     );
 }

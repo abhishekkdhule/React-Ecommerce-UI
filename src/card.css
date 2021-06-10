@@ -2,7 +2,7 @@
     font-family: 'Roboto', sans-serif;
 }
 .product_card{
-    width:310px;
+    width:270px;
     /* border-radius: 10px; */
     margin:0 auto;
     box-shadow: 0px 0px 10px 0px gray;
@@ -15,7 +15,7 @@
 
 .product_image{
     padding:4px;
-    height:302px;
+    height:270px;
     position: relative;
 }
 

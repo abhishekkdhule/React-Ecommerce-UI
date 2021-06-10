@@ -7,10 +7,9 @@ function App() {
   return (
     <>
     <Nav/>
-    <h1 className="text-center"> Product </h1>
     <div>
-      {/* <Products/> */}
-      <Cart/>
+      <Products/>
+      {/* <Cart/> */}
     </div>
     </>
   );
