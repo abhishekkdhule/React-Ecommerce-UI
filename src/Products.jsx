@@ -10,10 +10,10 @@ function Products(){
     const [url,setUrl]=useState('http://127.0.0.1:8000/products')
 
     const fetchData = (urlpara)=>{
-        setLoading(true)
         console.log("fetch  data called",urlpara)
         console.log(currObj)
         if(urlpara){
+            setLoading(true)
             console.log("in the if")
             axios.get(urlpara)
             .then(response =>{
