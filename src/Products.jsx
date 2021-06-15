@@ -1,73 +1,98 @@
-import React,{useState,useEffect} from 'react';
-import ReactDOM from 'react-dom'
-import Product from './Product'
-import axios from 'axios'
+import React, { useEffect, useReducer } from "react";
+import Product from "./Product";
+import axios from "axios";
 
-function Products(){
-    const [prod, setProds] = useState([]);
-    const [loading,setLoading]=useState(true);
-    const [currObj,setcurrObj]=useState({});
-    const [url,setUrl]=useState('http://127.0.0.1:8000/products')
+const intialState = {
+  isLoading: true,
+  currentObj: {},
+  currentPath: "http://127.0.0.1:8000/products",
+};
 
-    const fetchData = (urlpara)=>{
-        console.log("fetch  data called",urlpara)
-        console.log(currObj)
-        if(urlpara){
-            setLoading(true)
-            console.log("in the if")
-            axios.get(urlpara)
-            .then(response =>{
-                setLoading(false)
-                console.log(response.data)
-                setProds([...response.data.results])
-                setcurrObj(response.data)
-            }) 
-            }
-        };
-    
-    useEffect(() => {
-        fetchData(url);
-    }, [])
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "URL_UPDATE_NEXT":
+      console.log("url updated");
+      return { ...state, currentPath: state.currentObj.next };
+    case "URL_UPDATE_PREV":
+      return { ...state, currentPath: state.currentObj.previous };
+    case "FETCH_SUCCESS":
+      return { ...state, isLoading: false, currentObj: action.payload };
+    case "FETCH_FAIL":
+      return { ...state, isLoading: true, currentObj: {} };
+    default:  
+      return state;
+  }
+};
 
-    
-    return (
-    <>  {   loading ? (
-            <div className="text-center " style={{marginTop:'250px'}}>
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div> 
-    ) : 
-        (   <>
-            <div className="container-fluid mt-4 mb-4">
-            <div className="row" >
-            {
-                prod.map((cval)=>{
-                    return (
-                        <div className="col-md-3 " key={cval.id}>
-                        <Product name={cval.prod_name} price={cval.original_price}  imgUrl={cval.images[0].image}/>
-                        </div>
-                    );
-                })
-            }
-            </div>
+function Products() {
+  const [currentState, dispatch] = useReducer(reducer, intialState);
+
+  useEffect(() => {
+    if (currentState.currentPath) {
+      axios.get(currentState.currentPath).then((response) => {
+        dispatch({
+          type: "FETCH_SUCCESS",
+          payload: response.data,
+        });
+      });
+    }
+  }, [currentState.currentPath]);
+
+  console.log("current object=", currentState.currentObj);
+
+  return (
+    <>
+      {" "}
+      {currentState.isLoading ? (
+        <div className="text-center " style={{ marginTop: "250px" }}>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
+      ) : (
+        <>
+          <div className="container-fluid mt-4 mb-4">
+            <div className="row">
+              {currentState.currentObj.results.map((cval) => {
+                return (
+                  <div className="col " key={cval.id}>
+                    <Product
+                      name={cval.prod_name}
+                      price={cval.original_price}
+                      imgUrl={cval.images[0].image}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-        <div style={{display:"flex" , justifyContent:"center" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <ul className="pagination text-center">
-                <li className="page-item ">
-                <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.previous)}>◀️</a>
-                </li>
-                <li className="page-item">
-                <a className="page-link" style={{cursor:"pointer"}} onClick={()=>fetchData(currObj.next)}>	 ▶️</a>
-                </li>
+              <li className="page-item ">
+                <button
+                  className="page-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => dispatch({ type: "URL_UPDATE_PREV" })}
+                >
+                  ◀️
+                </button>
+              </li>
+              <li className="page-item">
+                <button
+                  className="page-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => dispatch({ type: "URL_UPDATE_NEXT" })}
+                >
+                  ▶️
+                </button>
+              </li>
             </ul>
-        </div>        
-        </>        
-        )
-        }
+          </div>
+        </>
+      )}
     </>
-    );
+  );
 }
 
 export default Products;
