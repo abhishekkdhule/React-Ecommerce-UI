@@ -42,7 +42,6 @@ function Products() {
 
   return (
     <>
-      {" "}
       {currentState.isLoading ? (
         <div className="text-center " style={{ marginTop: "250px" }}>
           <div className="spinner-border text-primary" role="status">

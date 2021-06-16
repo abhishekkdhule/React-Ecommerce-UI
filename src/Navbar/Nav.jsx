@@ -3,7 +3,7 @@ import React from 'react'
 function Nav() {
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light " style={{backgroundColor:'rgb(0, 163, 238)'}}>
+        <nav className="navbar navbar-expand-lg navbar-light shadow" style={{backgroundColor:'rgb(0, 163, 238)'}}>
         <div className="container-fluid">
           <a className="navbar-brand" href="#">Navbar scroll</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">

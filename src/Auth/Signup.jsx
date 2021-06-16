@@ -23,7 +23,7 @@ function Signup() {
                 
                 <hr/>
                 <div className="d-flex justify-content-evenly">
-                    <i className="fab fa-google icon"></i> <i className="fab fa-facebook-f icon"></i>
+                    <i className="fab fa-google icon"></i> <i class="fab fa-facebook icon"></i>
                 </div>
                 </div>
             </div>

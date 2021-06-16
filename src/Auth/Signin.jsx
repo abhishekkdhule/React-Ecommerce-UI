@@ -19,7 +19,7 @@ function Signin() {
                     
                     <hr/>
                     <div class="d-flex justify-content-evenly">
-                        <i class="fab fa-google icon"></i> <i class="fab fa-facebook-f icon"></i>
+                        <i class="fab fa-google icon"></i> <i class="fab fa-facebook icon"></i>
                     </div>
                 </div>
             </div>

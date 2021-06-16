@@ -1,4 +1,4 @@
-
+import Cart from './Cart/Cart';
 import Products from './Products' ;
 import Payment from './Payment/Payment'
 import Nav from './Navbar/Nav'
@@ -15,9 +15,7 @@ function App() {
   return (
     <>
     <Nav/>
-    <div>
-      {/* <Cart/> */}
-    </div>
+
     <Router>
     <Switch>
           <Route exact path="/">
@@ -28,6 +26,9 @@ function App() {
           </Route>
           <Route path="/signin">
             <Signin/>
+          </Route>
+          <Route path="/mycart">
+            <Cart/>
           </Route>
     </Switch>
     </Router>
