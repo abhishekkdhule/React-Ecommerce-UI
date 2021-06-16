@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import Product from "./Product";
+import Product from "./ProductCard/Product";
 import axios from "axios";
 
 const intialState = {
