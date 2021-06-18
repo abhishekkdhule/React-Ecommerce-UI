@@ -50,7 +50,7 @@ function Signin() {
                     <input type="text" id="email" className="form-control" value={email} onChange={(e)=>setEmail(e.target.value)} name="email"/>
 
                     <label for="password" className="form-label m-0 mt-2">Password</label>
-                    <input type="text" id="password" className="form-control" value={password} onChange={(e)=>setPassword(e.target.value)} name="password"/>
+                    <input type="password" id="password" className="form-control" value={password} onChange={(e)=>setPassword(e.target.value)} name="password"/>
 
                     <button className="btn btn-primary w-100 mt-3" onClick={Login}>Sign in</button>
                     <hr/>
