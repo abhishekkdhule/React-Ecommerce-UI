@@ -11,6 +11,7 @@
 
 .quantity_but{
     background-color: rgb(224, 224, 224);
+    padding-top: 3px;
     text-align: center;
     font-weight: bold;
     width:30px;

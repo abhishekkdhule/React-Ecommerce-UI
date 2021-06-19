@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import CartItem from './CartItem'
 import './Cart.css'
+
+const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjI0MTAwOTM5LCJqdGkiOiJlNzYzOTIzYjM2OTE0ZTgyOWE3NjBlYjBhNmZhYjdiMiIsInVzZXJfaWQiOjl9.vYH7musqXrdiTleHXIC7136vQDwAdpF8BqT7qLPfHxM"
+const custAxios=axios.create({
+    baseURL:"http://localhost:8000/",
+    headers:{
+        Authorization:`Bearer ${accessToken}`
+    }
+})
+
 function Cart() {
+    const[items,setItems]=useState([])
+
+    useEffect(()=>{
+        custAxios.get("order/mycart/")
+        .then(response => {
+            console.log(response.data)
+            setItems([...response.data])
+        })
+        .catch(error => console.log(error))
+    },[])
+    console.log(items)
     return (
-        <div className="container bg-light pt-2 pb-2 mt-4">
+       <>
+       <div className="container bg-light pt-2 pb-2 mt-4">
         
         <div className="p-3 bg-white">
             <div className="row">
@@ -17,35 +40,22 @@ function Cart() {
                 </div>
             </div>
             <hr/>
-            <div className="row">
-                <div className="col-md-3">
-                    <div className="img_div">
-                        <img className="prod_image" src="https://rukminim1.flixcart.com/image/416/416/k66sh3k0/mobile-display/h/z/g/sm38-sprotech-original-imafd7yycchwbgq3.jpeg?q=70" alt=""/>
-                    </div>
-                    <div className="mt-3 d-flex justify-content-center">
-                        <div className="quantity_but">-</div><p className="ms-1 me-1">2</p> <div className="quantity_but">+</div>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <h5>Redmi 5 (Light gray, 32 GB)  (3 GB RAM)  </h5>
-                    <p>3 GB RAM | 32 GB ROM | Expandable Upto 128 GB <br/> 12MP Rear Camera | 5MP Front Camera</p>
-                    <p className="m-0"><strike>&#8377;6999</strike></p>
-                    <p className="fw-bold m-0 mb-2"> &#8377;5999</p>
-                    <span className="border bg-light   p-1 fw-bold">Remove</span>
-                </div>
-                <div className="col-md-3">
-                    <h5>Total</h5>
-                    <p className="fw-bold">&#8377;11998</p>
-                </div>
-            </div>
-            <hr/>
-            <div className="row text-end">
+            
+       {
+            items.map(item=>{
+                return(
+                <CartItem key={item.product.id} product={item.product} quantity={item.quantity} />
+                )
+            })
+       }
+       <div className="row text-end">
                 <div>
                     <button className="btn btn-primary w-25">Place Order</button>
                 </div>
             </div>
         </div>
     </div>
+       </>
     )
 }
 
