@@ -3,7 +3,7 @@ import axios from 'axios'
 import CartItem from './CartItem'
 import './Cart.css'
 
-const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjI0MTAwOTM5LCJqdGkiOiJlNzYzOTIzYjM2OTE0ZTgyOWE3NjBlYjBhNmZhYjdiMiIsInVzZXJfaWQiOjl9.vYH7musqXrdiTleHXIC7136vQDwAdpF8BqT7qLPfHxM"
+const accessToken=""
 const custAxios=axios.create({
     baseURL:"http://localhost:8000/",
     headers:{
