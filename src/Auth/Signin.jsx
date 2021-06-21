@@ -13,7 +13,7 @@ function Signin() {
         axios.post('http://127.0.0.1:8000/auth/login/',{"email":email,"password":password})   
         .then(response=>{
             console.log(response.data)
-            history.push("/")
+            // history.push("/")
             
         })
         .catch(error=>{

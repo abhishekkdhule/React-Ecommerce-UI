@@ -3,11 +3,12 @@ import axios from 'axios'
 import CartItem from './CartItem'
 import './Cart.css'
 
-const accessToken=""
+const accessToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjI0Mjk3MTIyLCJqdGkiOiJiNTExNjMyOWFmMWM0OGIwOGU0N2QxZWNlODI5ZDg3YSIsInVzZXJfaWQiOjl9.tjbCmPHMEUJlro9ReIBqfYx6gK79YuCLPeWGXpzY0-4'
 const custAxios=axios.create({
-    baseURL:"http://localhost:8000/",
+    baseURL:"http://localhost:8000/",withCredentials: true,
     headers:{
         Authorization:`Bearer ${accessToken}`
+
     }
 })
 
@@ -17,7 +18,7 @@ function Cart() {
     useEffect(()=>{
         custAxios.get("order/mycart/")
         .then(response => {
-            console.log(response.data)
+            console.log(response.headers['Set-Cookie'])
             setItems([...response.data])
         })
         .catch(error => console.log(error))
