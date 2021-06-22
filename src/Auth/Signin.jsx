@@ -3,6 +3,10 @@ import React,{useEffect, useState} from 'react'
 import {Redirect,useHistory} from "react-router-dom"
 import './auth.css'
 
+const custAxios=axios.create({
+    baseURL:"http://localhost:8000/",withCredentials: true,
+})
+
 function Signin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -10,7 +14,7 @@ function Signin() {
     const [errors,setErrors]=useState(null)
 
     const Login=()=>{
-        axios.post('http://127.0.0.1:8000/auth/login/',{"email":email,"password":password})   
+        custAxios.post('auth/login/',{"email":email,"password":password})   
         .then(response=>{
             console.log(response.data)
             // history.push("/")
