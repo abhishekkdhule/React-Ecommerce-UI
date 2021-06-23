@@ -1,6 +1,7 @@
 import axios from 'axios'
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useContext} from 'react'
 import {Redirect,useHistory} from "react-router-dom"
+import { tokenContext } from '../App'
 import './auth.css'
 
 const custAxios=axios.create({
@@ -8,15 +9,16 @@ const custAxios=axios.create({
 })
 
 function Signin() {
+    const tempC=useContext(tokenContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const history=useHistory()
     const [errors,setErrors]=useState(null)
-
     const Login=()=>{
         custAxios.post('auth/login/',{"email":email,"password":password})   
         .then(response=>{
             console.log(response.data)
+            tempC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
             // history.push("/")
             
         })
@@ -25,6 +27,7 @@ function Signin() {
             setErrors("Invalid Credentials!")
         })
     }
+    console.log(tempC)
 
     // useEffect(()=>{
     //     axios.post('http://127.0.0.1:8000/auth/login/',{"email":email,"password":password})   

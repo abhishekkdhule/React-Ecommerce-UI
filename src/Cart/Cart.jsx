@@ -1,28 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import axios from 'axios'
 import CartItem from './CartItem'
 import './Cart.css'
+import { tokenContext } from '../App'
 
-const accessToken=''
-const custAxios=axios.create({
+const getTokenReq=axios.create({
     baseURL:"http://localhost:8000/",withCredentials: true,
-    headers:{
-        Authorization:`Bearer ${accessToken}`
-
-    }
 })
-
 function Cart() {
+    const tokenC = useContext(tokenContext)
+    const custAxios=axios.create({
+        baseURL:"http://localhost:8000/",withCredentials: true,
+        headers:{
+            Authorization:`Bearer ${tokenC.tokenState}`
+    
+        }
+    }) 
     const[items,setItems]=useState([])
 
     useEffect(()=>{
-        custAxios.get("order/mycart/")
-        .then(response => {
-            console.log(response.headers['Set-Cookie'])
-            setItems([...response.data])
+        getTokenReq.get("auth/accesstoken/")
+        .then(response=>{ console.log(response.data)
+        tokenC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
         })
-        .catch(error => console.log(error))
+
     },[])
+
+    useEffect(()=>{
+            custAxios.get("order/mycart/")
+            .then(response => {
+                setItems([...response.data])
+            })
+            .catch(error => console.log(tokenC.tokenState))
+    },[tokenC.tokenState])
+    
     console.log(items)
     return (
        <>
