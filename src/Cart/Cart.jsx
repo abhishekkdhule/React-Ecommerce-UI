@@ -8,32 +8,42 @@ const getTokenReq=axios.create({
     baseURL:"http://localhost:8000/",withCredentials: true,
 })
 function Cart() {
-    const tokenC = useContext(tokenContext)
-    const custAxios=axios.create({
-        baseURL:"http://localhost:8000/",withCredentials: true,
-        headers:{
-            Authorization:`Bearer ${tokenC.tokenState}`
+    console.log('in component')
     
-        }
-    }) 
+    const tokenC = useContext(tokenContext)
     const[items,setItems]=useState([])
-
+    
     useEffect(()=>{
+        console.log('in use effect 1')
         getTokenReq.get("auth/accesstoken/")
         .then(response=>{ console.log(response.data)
-        tokenC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
-        })
-
-    },[])
-
-    useEffect(()=>{
+            tokenC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
+            
+            const custAxios=axios.create({
+                baseURL:"http://localhost:8000/",withCredentials: true,
+                headers:{
+                    Authorization:`Bearer ${response.data.access_token}`
+            
+                }
+            }) 
+            // console.log('the updated token',at)
             custAxios.get("order/mycart/")
             .then(response => {
                 setItems([...response.data])
             })
-            .catch(error => console.log(tokenC.tokenState))
-    },[tokenC.tokenState])
+        })
+
+    },[])
     
+    // useEffect(()=>{
+    //         console.log('in use effect 2')
+    //         custAxios.get("order/mycart/")
+    //         .then(response => {
+    //             setItems([...response.data])
+    //         })
+    //         .catch(error => console.log(tokenC.tokenState))
+    // },[tokenC.tokenState])
+
     console.log(items)
     return (
        <>
@@ -56,7 +66,7 @@ function Cart() {
        {
             items.map(item=>{
                 return(
-                <CartItem key={item.product.id} product={item.product} quantity={item.quantity} />
+                <CartItem key={item.product.id} cartObjId={item.id} product={item.product} quantity={item.quantity} />
                 )
             })
        }
