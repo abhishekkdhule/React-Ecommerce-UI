@@ -19,7 +19,7 @@ function Signin() {
         .then(response=>{
             console.log(response.data)
             tempC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
-            // history.push("/")
+            history.push("/")
             
         })
         .catch(error=>{

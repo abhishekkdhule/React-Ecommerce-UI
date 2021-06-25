@@ -45,9 +45,7 @@ function App() {
           <Route path="/signin">            
             <Signin/>
           </Route>
-          <Route path="/mycart">
-            <Cart/>
-          </Route>
+    
           <Route path="/product">
             <ProductView/>
           </Route>

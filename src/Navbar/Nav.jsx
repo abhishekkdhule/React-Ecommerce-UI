@@ -1,8 +1,21 @@
 import React from 'react'
+import Signin from '../Auth/Signin';
+import Signup from '../Auth/Signup';
+import Cart from '../Cart/Cart';
+import ProductView from '../SingleProductView/ProductView';
+import Products from '../ProductCard/Product';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function Nav() {
 
     return (
+      <Router>
         <nav className="navbar navbar-expand-lg navbar-light shadow text-white fw-bold" style={{backgroundColor:'rgb(0, 163, 238)'}}>
         <div className="container-fluid">
           <a className="navbar-brand text-white" href="#">ShopHere</a>
@@ -16,9 +29,11 @@ function Nav() {
               </li>
             </ul>
             <ul class="m-0 p-0">
+            <Link to="/mycart" style={{ textDecoration: 'none',color:'white' }}>
             <p class="p-0 m-0 me-4">
             <i className="fas fa-shopping-cart me-2 ms-2 text-white"></i>Cart
             </p>
+            </Link>
             </ul>
             {/* <form className="d-flex">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
@@ -27,6 +42,13 @@ function Nav() {
           </div>
         </div>
       </nav>
+      <Switch>
+          
+          <Route path="/mycart">
+            <Cart/>
+          </Route>
+    </Switch>
+      </Router>
         )
 }
 
