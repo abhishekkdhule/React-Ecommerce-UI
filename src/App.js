@@ -4,6 +4,7 @@ import Payment from './Payment/Payment'
 import Nav from './Navbar/Nav'
 import Signup from './Auth/Signup';
 import Signin from './Auth/Signin';
+import ProductView from './SingleProductView/ProductView';
 import React,{ useReducer } from 'react';
 import {
   BrowserRouter as Router,
@@ -41,13 +42,14 @@ function App() {
           <Route path="/signup">
             <Signup/>
           </Route>
-          <Route path="/signin">
-            
+          <Route path="/signin">            
             <Signin/>
-            
           </Route>
           <Route path="/mycart">
             <Cart/>
+          </Route>
+          <Route path="/product">
+            <ProductView/>
           </Route>
     </Switch>
     </Router>
