@@ -13,44 +13,50 @@ import {
   Link
 } from "react-router-dom";
 
-const initialToken='random token'
+const initialAuth={
+  initialToken:'unauthorized',
+  isAuth:false
+}
 
 export const tokenContext=React.createContext()
 
 const reducer=(state,action)=>{
     switch(action.type){
       case 'updateToken':
-        return action.newToken
+        return {initialToken:action.newToken,isAuth:action.isAuth}
       default:
         return state
     }
 }
 
 function App() {
-  const[token,dispatch] =useReducer(reducer,initialToken)
+  const[auth,dispatch] =useReducer(reducer,initialAuth)
 
   return (
     <>
-    <tokenContext.Provider value={{tokenState:token,tokenDispatch:dispatch}}>
+    <tokenContext.Provider value={{authState:auth,tokenDispatch:dispatch}}>
 
     <Nav/>
     <Router>
     <Switch>
-          <Route exact path="/">
-            <Products/> 
-          </Route>
-          <Route path="/signup">
-            <Signup/>
-          </Route>
-          <Route path="/signin">            
-            <Signin/>
-          </Route>
-    
-          <Route path="/product">
-            <ProductView/>
-          </Route>
-    </Switch>
-    </Router>
+        <Route exact path="/">
+              <Products/> 
+        </Route>
+       <Route path="/mycart">
+              <Cart/>
+        </Route>
+        <Route path="/signup">
+          <Signup/>
+        </Route>
+        <Route path="/signin">            
+          <Signin/>
+        </Route>
+  
+        <Route path="/product">
+          <ProductView/>
+        </Route>
+        </Switch>
+      </Router>
     </tokenContext.Provider>
     </>
   );

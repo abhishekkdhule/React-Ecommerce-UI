@@ -10,7 +10,7 @@ function CartItem({cartObjId,product,quantity}) {
     const updateQuantReq=axios.create({
         baseURL:"http://localhost:8000/",withCredentials: true,
         headers:{
-            Authorization:`Bearer ${tokenC.tokenState}`
+            Authorization:`Bearer ${tokenC.authState.initialToken}`
             
         }
     })

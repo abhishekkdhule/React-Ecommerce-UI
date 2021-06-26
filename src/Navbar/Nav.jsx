@@ -42,12 +42,7 @@ function Nav() {
           </div>
         </div>
       </nav>
-      <Switch>
-          
-          <Route path="/mycart">
-            <Cart/>
-          </Route>
-    </Switch>
+      
       </Router>
         )
 }

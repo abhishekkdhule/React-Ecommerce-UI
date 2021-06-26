@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import Product from "./ProductCard/Product";
 import axios from "axios";
-
+import LoadingProductCard from "./ProductCard/LoadingProductCard" 
 const intialState = {
   isLoading: true,
   currentObj: {},
@@ -42,11 +42,14 @@ function Products() {
 
   return (
     <>
-      {currentState.isLoading ? (
-        <div className="text-center " style={{ marginTop: "250px" }}>
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+      {currentState.isLoading ? 
+        
+        (<div className="container-fluid mt-4 mb-4">
+            <div className="row">
+              <LoadingProductCard/>
+              <LoadingProductCard/>
+              <LoadingProductCard/>
+            </div>
         </div>
       ) : (
         <>
