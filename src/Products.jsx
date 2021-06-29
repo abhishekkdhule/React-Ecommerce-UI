@@ -1,7 +1,10 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer,useContext } from "react";
 import Product from "./ProductCard/Product";
 import axios from "axios";
 import LoadingProductCard from "./ProductCard/LoadingProductCard" 
+import { tokenContext } from "./App";
+
+
 const intialState = {
   isLoading: true,
   currentObj: {},
@@ -24,9 +27,27 @@ const reducer = (state, action) => {
   }
 };
 
+  
+
 function Products() {
   const [currentState, dispatch] = useReducer(reducer, intialState);
 
+  //useEffect for getting access token
+  useEffect(()=>{
+    if(tokenC.authState.initialToken==="unauthorized"){
+        const getTokenReq=axios.create({
+            baseURL:"http://localhost:8000/",withCredentials: true,
+        })
+        getTokenReq.get("auth/accesstoken/")
+        .then((response)=>{
+            tokenC.tokenDispatch({type:"updateToken",newToken:response.data.access_token,isAuth:true})
+        })
+    }
+  },[])
+
+
+  const tokenC=useContext(tokenContext)
+  //useEffect for pagination
   useEffect(() => {
     if (currentState.currentPath) {
       axios.get(currentState.currentPath).then((response) => {
@@ -38,7 +59,7 @@ function Products() {
     }
   }, [currentState.currentPath]);
 
-  console.log("current object=", currentState.currentObj);
+  
 
   return (
     <>
@@ -59,6 +80,7 @@ function Products() {
                 return (
                   <div className="col " key={cval.id}>
                     <Product
+                      id={cval.id}
                       name={cval.prod_name}
                       price={cval.original_price}
                       imgUrl={cval.images[0].image}
