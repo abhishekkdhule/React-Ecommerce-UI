@@ -40,6 +40,7 @@ function Products() {
         })
         getTokenReq.get("auth/accesstoken/")
         .then((response)=>{
+            console.log("token",response.data)
             tokenC.tokenDispatch({type:"updateToken",newToken:response.data.access_token,isAuth:true})
         })
     }
@@ -51,6 +52,7 @@ function Products() {
   useEffect(() => {
     if (currentState.currentPath) {
       axios.get(currentState.currentPath).then((response) => {
+        
         dispatch({
           type: "FETCH_SUCCESS",
           payload: response.data,

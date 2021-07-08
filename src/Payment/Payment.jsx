@@ -51,7 +51,7 @@ function Payment() {
                     razorpaySignature: response.razorpay_signature,
                 };
 
-                const result = await axios.post("http://localhost:8000/order/payment", data);
+                const result = await axios.post("http://127.0.0.1:8000/order/payment", data);
 
                 alert(result.data.msg);
             },

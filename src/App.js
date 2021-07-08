@@ -6,6 +6,7 @@ import Signup from './Auth/Signup';
 import Signin from './Auth/Signin';
 import ProductView from './SingleProductView/ProductView';
 import React,{ useReducer } from 'react';
+import Profile from './Profile/Profile';
 import {
   BrowserRouter as Router,
   Switch,
@@ -51,7 +52,9 @@ function App() {
         <Route path="/signin">            
           <Signin/>
         </Route>
-  
+        <Route path="/profile">            
+          <Profile/>
+        </Route>
         <Route path="/product">
           <ProductView/>
         </Route>

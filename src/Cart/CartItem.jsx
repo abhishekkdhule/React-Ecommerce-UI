@@ -30,7 +30,7 @@ function CartItem({cartObjId,product,quantity}) {
         <>
             <div className="row mt-4">
                 <div className="col-md-3">
-                    <div className="img_div">
+                    <div className="img_div" style={{maxWidth:'140px',height:'140px'}}>
                         <img className="prod_image" src={`https://res.cloudinary.com/djzhnqsaw/${product.images[0].image}`} alt=""/>
                     </div>
                     <div className="mt-3 d-flex justify-content-center">

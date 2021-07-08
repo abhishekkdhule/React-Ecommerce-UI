@@ -1,0 +1,46 @@
+.profile-left{
+    max-height: 200px;
+    width:23%;
+    text-align: center;
+    /* background-color: rgb(238, 238, 238); */
+    box-shadow: 2px 2px 10px 2px rgb(238, 238, 238);
+}
+.profile-right{
+    width:73%;
+    box-shadow: 2px 2px 10px 2px rgb(238, 238, 238);
+}
+.input-width{
+    width:75%;
+    cursor: not-allowed;
+    
+}
+.input-width:read-only{
+    background-color: rgb(245, 245, 245);
+}
+@media (max-width:700px){
+    .main{
+        flex-direction: column;
+    }
+    .profile-left{
+        width: 95%;
+    }
+    .profile-right{
+        width:95%;
+    }
+    .input-width{
+        width: 100%;
+    }
+}
+.prof-icon{
+    font-size: 50px;
+    color: rgb(0, 163, 238);
+}
+.head-deco{
+    display: inline-block;
+    
+    border-bottom: 3px solid rgb(0, 163, 238);
+}
+.edit-btn:hover{
+    background-color: white;
+    color: blue;
+}
