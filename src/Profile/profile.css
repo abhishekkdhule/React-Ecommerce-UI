@@ -11,11 +11,11 @@
 }
 .input-width{
     width:75%;
-    cursor: not-allowed;
+    /* cursor: not-allowed; */
     
 }
 .input-width:read-only{
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(247, 247, 247);
 }
 @media (max-width:700px){
     .main{
@@ -43,4 +43,8 @@
 .edit-btn:hover{
     background-color: white;
     color: blue;
+}
+.add-type{
+    background-color: rgb(230, 230, 230);
+    
 }

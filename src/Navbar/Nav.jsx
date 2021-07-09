@@ -33,12 +33,15 @@ function Nav() {
       
         <nav className="navbar navbar-expand-lg navbar-light shadow text-white fw-bold" style={{backgroundColor:'rgb(0, 163, 238)'}}>
         <div className="container-fluid">
-          <a className="navbar-brand text-white" href="#">ShopHere</a>
+          <Link className="navbar-brand text-white" to="/" href="#">ShopHere</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+            </ul>
+            <ul class="m-0 p-0">
+            <Link to="/mycart" style={{ textDecoration: 'none',color:'white' }}>
             {
               currentAuthState.authState.isAuth ? 
               (
@@ -47,22 +50,19 @@ function Nav() {
               ):
               ( 
                 <>
-                <li className="nav-item">
+                <span className="nav-item ps-2">
                   <Link to="/signin" style={{ textDecoration: 'none',color:'white' }}>Login</Link>
-                </li>
-                <li className="nav-item ms-2">
+                </span>
+                <span className="nav-item ps-2">
                   <Link to="/signup" style={{ textDecoration: 'none',color:'white' }}>Signup</Link>
-                </li>
+                </span>
                 </>
               )
             } 
             
-            </ul>
-            <ul class="m-0 p-0">
-            <Link to="/mycart" style={{ textDecoration: 'none',color:'white' }}>
-            <p class="p-0 m-0 me-4">
+            <span class="p-0 m-0 me-4">
             <i className="fas fa-shopping-cart me-2 ms-2 text-white"></i>Cart
-            </p>
+            </span>
             </Link>
             </ul>
             {/* <form className="d-flex">
