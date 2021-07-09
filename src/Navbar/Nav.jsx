@@ -5,6 +5,7 @@ import Cart from '../Cart/Cart';
 import ProductView from '../SingleProductView/ProductView';
 import Products from '../ProductCard/Product';
 import { tokenContext } from '../App';
+import axios from 'axios'
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +14,21 @@ import {
 } from "react-router-dom";
 
 function Nav() {
-    const currentAuthState= useContext(tokenContext)
+  const currentAuthState= useContext(tokenContext)
+ 
+    const logout=()=>{
+      const custAxios=axios.create({
+        baseURL:"http://localhost:8000/",withCredentials: true,
+    })
+      custAxios.post('auth/logout/',{"req":"logout"})
+      .then((response)=>{
+        console.log(response)
+        currentAuthState.tokenDispatch({type:"updateToken",newToken:"unauthorised",isAuth:false})
+        window.location.replace("/");
+      })
+      .catch((e)=>console.log(e))
+    }
+
     return (
       
         <nav className="navbar navbar-expand-lg navbar-light shadow text-white fw-bold" style={{backgroundColor:'rgb(0, 163, 238)'}}>
@@ -27,7 +42,8 @@ function Nav() {
             {
               currentAuthState.authState.isAuth ? 
               (
-                <Link to="/logout" style={{ textDecoration: 'none',color:'white' }}>Logout</Link>
+                <span className="nav-item" onClick={()=>logout()}>Logout</span>
+              
               ):
               ( 
                 <>

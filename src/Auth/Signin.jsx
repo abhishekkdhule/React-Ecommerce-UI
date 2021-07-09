@@ -18,7 +18,7 @@ function Signin() {
     const Login=()=>{
         custAxios.post('auth/login/',{"email":email,"password":password})   
         .then(response=>{
-            tempC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
+            tempC.tokenDispatch({type:'updateToken',newToken:response.data.access_token,isAuth:true})
             // history.push("/")
             window.location.replace("/");
 

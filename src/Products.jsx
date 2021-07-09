@@ -41,7 +41,7 @@ function Products() {
         getTokenReq.get("auth/accesstoken/")
         .then((response)=>{
             console.log("token",response.data)
-            tokenC.tokenDispatch({type:"updateToken",newToken:response.data.access_token,isAuth:true})
+            tokenC.tokenDispatch({type:"updateToken",newToken:response.data.access_token,isAuth:response.data.isAuth})
         })
     }
   },[])
