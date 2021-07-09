@@ -1,23 +1,80 @@
-import React,{useState} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import './profile.css'
+import { tokenContext } from '../App'
+import axios from 'axios'
 
+const getTokenReq=axios.create({
+  baseURL:"http://localhost:8000/",withCredentials: true,
+})
 
 function Profile() {
-    
+    const currentAuthState=useContext(tokenContext);
     const [onhover, setonhover] = useState("not-allowed")
     const [editable, setEditable] = useState({readonly:"readOnly",disabled:"disabled"})
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [contact, setContact] = useState("")
-    
+    const [isLoading,setisLoading]=useState(true)
+    const [updateStatus,setUpdateStatus]=useState(false)
+
     const onEdit=()=>{
       setEditable({readonly:"",disabled:""})
       setonhover("")
+    }
 
+
+    useEffect(()=>{
+      getTokenReq.get("auth/accesstoken/")
+      .then(response=>{
+        setisLoading(false)
+        if(response.data.access_token==="unauthorized"){
+          currentAuthState.tokenDispatch({type:"updateToken",newToken:response.data.access_token,"isAuth":false})
+        }
+        else{
+          currentAuthState.tokenDispatch({type:"updateToken",newToken:response.data.access_token,"isAuth":true})
+          const getUserReq=axios.create({
+            baseURL:"http://localhost:8000/",withCredentials: true,
+            headers:{
+              Authorization: `Bearer ${response.data.access_token}`
+            }
+          })
+          getUserReq.get("auth/profile/")
+          .then(response=>{
+            console.log("response after ",response.data)
+            setContact(response.data.phoneNo)
+            setName(response.data.user.name)
+            setEmail(response.data.user.email)
+          })
+        }
+      })
+    },[])
+    
+    const updateData=()=>{
+      const updateReq=axios.create({
+        baseURL:"http://localhost:8000/",withCredentials:true,
+        headers:{
+          Authorization: `Bearer ${currentAuthState.authState.initialToken}`
+        }
+      })
+      updateReq.put("auth/profile/",{"name":name,"email":email,"phoneNo": contact,"is_active":true})
+      .then(response=>{
+        console.log(response.data)
+        setUpdateStatus(true)
+        setonhover("not-allowed")
+        setEditable({readonly:"readOnly",disabled:"disabled"})
+      })
     }
 
     return (
         <>
+        { isLoading ? (
+        <div className="text-center " style={{ marginTop: "250px" }}>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>) :
+        currentAuthState.authState.isAuth ?
+          (
         <div class="container mt-4 ">
         <div class="d-flex main">
             <div class="profile-left  m-2 bg-white">
@@ -26,6 +83,17 @@ function Profile() {
                 <p class="">(abhidhule@gmail.com)</p>
             </div>
             <div class="profile-right m-2 bg-white">
+            {
+              updateStatus ? (
+                <div class="alert alert-success alert-dismissible d-flex align-items-center m-2" style={{height:'45px'}} role="alert">
+                <i class="fas fa-check-circle me-2" style={{fontSize:'24px'}}></i>
+                <div>
+                  Profile updated successfully!!!
+                </div>
+                <button type="button" class="btn-close p-2 m-1" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              ) : <p></p>
+            }
                 <div class="row mb-4">
                     <div class="col-md-6 ps-4 pe-4 pt-4">
                         <h6 class=" head-deco mb-2">Name</h6>
@@ -38,7 +106,7 @@ function Profile() {
                         <input type="number" class="form-control input-width mb-4" style={{cursor:onhover}} name="contact"  value={contact} id="" onChange={(e)=>setContact(e.target.value)} readOnly={editable.readonly} />
                         <div class="d-flex justify-content-start">
                             <button class="btn btn-outline-primary mt-4 w-25 rounded-0 edit-btn" onClick={()=>onEdit()}>Edit</button>
-                            <button class="btn btn-primary mt-4 w-25 rounded-0" disabled={editable.disabled}>Update</button>
+                            <button class="btn btn-primary mt-4 w-25 rounded-0" disabled={editable.disabled} onClick={()=>updateData()}>Update</button>
                         </div>
                     </div>
                 </div>
@@ -91,6 +159,8 @@ function Profile() {
                 </div>
             </div>
         </div>
+        ) : <p style={{marginTop:'150px',textAlign:'center'}}>⚠️ Sign in to view your Profile!!!</p>
+        }
         </>
     )
 }
