@@ -35,10 +35,10 @@ function App() {
 
   return (
     <>
+    <Router>
     <tokenContext.Provider value={{authState:auth,tokenDispatch:dispatch}}>
 
     <Nav/>
-    <Router>
     <Switch>
         <Route exact path="/">
               <Products/> 
@@ -59,8 +59,8 @@ function App() {
           <ProductView/>
         </Route>
         </Switch>
-      </Router>
     </tokenContext.Provider>
+    </Router>
     </>
   );
 }

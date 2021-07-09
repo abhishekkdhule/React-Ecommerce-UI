@@ -14,32 +14,22 @@ function Signin() {
     const [password, setPassword] = useState('')
     const history=useHistory()
     const [errors,setErrors]=useState(null)
+
     const Login=()=>{
         custAxios.post('auth/login/',{"email":email,"password":password})   
         .then(response=>{
-            console.log(response.data)
             tempC.tokenDispatch({type:'updateToken',newToken:response.data.access_token})
-            history.push("/")
-            
+            // history.push("/")
+            window.location.replace("/");
+
         })
         .catch(error=>{
             console.log(error)
             setErrors("Invalid Credentials!")
         })
     }
-    console.log(tempC)
 
-    // useEffect(()=>{
-    //     axios.post('http://127.0.0.1:8000/auth/login/',{"email":email,"password":password})   
-    //     .then(response=>{
-    //         console.log(response)
-    //     })
-    //     .catch(error=>{
-    //         console.log(error)
-    //     })
-    // })
 
-    console.log(email,password)
     return (<>
         
         <div className="container">

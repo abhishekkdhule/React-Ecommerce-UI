@@ -1,10 +1,10 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import Signin from '../Auth/Signin';
 import Signup from '../Auth/Signup';
 import Cart from '../Cart/Cart';
 import ProductView from '../SingleProductView/ProductView';
 import Products from '../ProductCard/Product';
-
+import { tokenContext } from '../App';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,9 +13,9 @@ import {
 } from "react-router-dom";
 
 function Nav() {
-
+    const currentAuthState= useContext(tokenContext)
     return (
-      <Router>
+      
         <nav className="navbar navbar-expand-lg navbar-light shadow text-white fw-bold" style={{backgroundColor:'rgb(0, 163, 238)'}}>
         <div className="container-fluid">
           <a className="navbar-brand text-white" href="#">ShopHere</a>
@@ -24,9 +24,23 @@ function Nav() {
           </button>
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-              <li className="nav-item">
-                <a className="nav-link text-white" href="#">Hi Abhi!!!</a>
-              </li>
+            {
+              currentAuthState.authState.isAuth ? 
+              (
+                <Link to="/logout" style={{ textDecoration: 'none',color:'white' }}>Logout</Link>
+              ):
+              ( 
+                <>
+                <li className="nav-item">
+                  <Link to="/signin" style={{ textDecoration: 'none',color:'white' }}>Login</Link>
+                </li>
+                <li className="nav-item ms-2">
+                  <Link to="/signup" style={{ textDecoration: 'none',color:'white' }}>Signup</Link>
+                </li>
+                </>
+              )
+            } 
+            
             </ul>
             <ul class="m-0 p-0">
             <Link to="/mycart" style={{ textDecoration: 'none',color:'white' }}>
@@ -43,7 +57,7 @@ function Nav() {
         </div>
       </nav>
       
-      </Router>
+      
         )
 }
 
