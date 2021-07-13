@@ -6,7 +6,8 @@ import axios from 'axios';
 function Product(props){
 
     const tokenC=useContext(tokenContext)
-   
+    
+
     const addToCart=()=>{
         const addToCartReq=axios.create({
             baseURL:"http://localhost:8000/",withCredentials: true,
@@ -19,9 +20,11 @@ function Product(props){
         addToCartReq.post("order/addtocart/",{"product":props.id})
         .then(()=>{
             //display a popup to with message saying product added to cart
+            props.updateCartStatus(true)
         })
         .catch(error=>{
             //display a pop up to ask user to log in
+            console.log("log in")
         })
     }
     

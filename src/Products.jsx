@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer,useContext } from "react";
+import React, { useEffect, useReducer,useContext,useState } from "react";
 import Product from "./ProductCard/Product";
 import axios from "axios";
 import LoadingProductCard from "./ProductCard/LoadingProductCard" 
@@ -31,7 +31,7 @@ const reducer = (state, action) => {
 
 function Products() {
   const [currentState, dispatch] = useReducer(reducer, intialState);
-
+  const [addedToCart,setaddedToCart]=useState(false)
   //useEffect for getting access token
   useEffect(()=>{
     if(tokenC.authState.initialToken==="unauthorized"){
@@ -77,7 +77,20 @@ function Products() {
       ) : (
         <>
           <div className="container-fluid mt-4 mb-4">
+            {
+              addedToCart ? (
+                <div class="alert alert-success alert-dismissible d-flex align-items-center m-2 mx-auto mb-4" style={{height:'45px',maxWidth:'450px'}} role="alert">
+                <i class="fas fa-check-circle me-2" style={{fontSize:'24px'}}></i>
+                <div>
+                  Product added to cart successfully!!!
+                </div>
+                <button type="button" onClick={()=>setaddedToCart(false)} class="btn-close p-2 m-1" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              ) : <p></p>
+            }
             <div className="row">
+
+
               {currentState.currentObj.results.map((cval) => {
                 return (
                   <div className="col " key={cval.id}>
@@ -86,6 +99,8 @@ function Products() {
                       name={cval.prod_name}
                       price={cval.original_price}
                       imgUrl={cval.images[0].image}
+                      cartStatus={addedToCart}
+                      updateCartStatus={setaddedToCart}
                     />
                   </div>
                 );
