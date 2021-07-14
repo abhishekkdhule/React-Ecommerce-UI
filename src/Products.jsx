@@ -31,7 +31,8 @@ const reducer = (state, action) => {
 
 function Products() {
   const [currentState, dispatch] = useReducer(reducer, intialState);
-  const [addedToCart,setaddedToCart]=useState(false)
+  const [cartState,setCartState]=useState({isAuth:false,addedToCart:false})
+  
   //useEffect for getting access token
   useEffect(()=>{
     if(tokenC.authState.initialToken==="unauthorized"){
