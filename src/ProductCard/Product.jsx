@@ -20,7 +20,8 @@ function Product(props){
         addToCartReq.post("order/addtocart/",{"product":props.id})
         .then(()=>{
             //display a popup to with message saying product added to cart
-            props.updateCartStatus(true)
+            props.updateCartStatus({isAuth:true,addedToCart:true})
+            // setInterval(() => props.updateCartStatus({isAuth:true,addedToCart:true}),1000)
         })
         .catch(error=>{
             //display a pop up to ask user to log in
