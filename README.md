@@ -1,6 +1,6 @@
-# React-Ecommerce-UI
-### Its API based backend is created using DRF. 
-This application used JWT for authentication.
+# Ecommerce-UI
+### Its API based backend is created using DRF and frontend is created using React. 
+This application uses JWT for authentication.
 
 ### Screenshots
 Homepage
