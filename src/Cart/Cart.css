@@ -19,3 +19,10 @@
     height:30px;
     border-radius: 50px;
 }
+
+.custom_toast {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 12%;
+}
